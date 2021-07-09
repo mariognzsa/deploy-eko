@@ -8,9 +8,8 @@
         flat
         tile
         >
-            <v-card-title class="primaryDarken">
-                <strong class="subheading">Encuéntranos en redes sociales</strong>
-
+            
+            <v-card-text class="py-2 white--text text-center">
                 <v-btn
                 v-for="(social, i) in socials"
                 :key="i"
@@ -22,16 +21,7 @@
                 >
                 <v-icon size="24px">{{ social.icon }}</v-icon>
                 </v-btn>
-
-                <v-spacer></v-spacer>
-
-                <v-btn dark outlined @click="$router.push('apoyanos')">
-                Realiza una donación
-                <v-icon color="green">mdi-cash</v-icon>
-            </v-btn>
-            </v-card-title>
-        
-            <v-card-text class="py-2 white--text text-center">
+                <br>
                 {{ new Date().getFullYear() }} — <strong>Eko A. C.</strong>
             </v-card-text>
             
@@ -39,17 +29,30 @@
     </v-footer>
 </template>
 <script>
+import { firebase } from '@firebase/app'
+import '@firebase/auth'
+
 export default {
     name: 'Footer',
     data () {
         return {
             socials: [
-                {icon:'mdi-facebook', url: ''},
-                {icon:'mdi-instagram', url: ''},
+                {icon:'mdi-facebook', url: 'https://www.facebook.com/ekoaguascalientes'},
+                {icon:'mdi-instagram', url: 'https://www.instagram.com/ekoags_'},
                 {icon:'mdi-youtube', url: ''},
                 {icon:'mdi-twitter', url: ''},
             ],
         }
-    }
+    },
+    computed: {
+        authenticated() {
+            var user = firebase.auth().currentUser;
+            if (user) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+    },
 }
 </script>

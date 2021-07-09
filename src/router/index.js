@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import auth from '../plugins/auth'
 import { firebase } from '@firebase/app'
 import '@firebase/auth'
 /**
@@ -15,8 +14,6 @@ import NuestroImpacto from '../views/NuestroImpacto.vue'
 import NuestrosAliados from '../views/NuestrosAliados.vue'
 import Tutoriales from '../views/Tutoriales.vue'
 import Login from '../views/Login.vue'
-import Dashboard from '../views/admin/Dashboard'
-import Tutorials from '../views/admin/Tutorials'
 
 Vue.use(VueRouter)
 
@@ -69,22 +66,6 @@ Vue.use(VueRouter)
     path: '/login',
     name: 'Login',
     component: Login
-  },
-  {
-    path: '/admin/dashboard',
-    name: 'Dashboard',
-    component: Dashboard,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/admin/tutorials',
-    name: 'Tutorials',
-    component: Tutorials,
-    meta: {
-      requiresAuth: true
-    }
   }
 ]
 
@@ -97,14 +78,14 @@ const router = new VueRouter({
  * Nota: Falta validacion del token con backend cada que se invoca
  */
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  const isAuthenticated = firebase.auth().currentUser;
-  if(requiresAuth && !isAuthenticated){
-    next('/login');
-  }
-  else {
-    next();
-  }
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+    const isAuthenticated = firebase.auth().currentUser;
+    if(requiresAuth && !isAuthenticated){
+        next('/login');
+    }
+    else {
+        next();
+    }
 });
 
 

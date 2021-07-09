@@ -6,10 +6,15 @@ import vuetify from './plugins/vuetify';
 import axios from 'axios';
 import firebase from 'firebase/app';
 import 'firebase/firestore'
+import VueTextAreaAutosize from 'vue-textarea-autosize';
+import DatetimePicker from 'vuetify-datetime-picker';
 
 Vue.prototype.$axios = axios;
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+
+Vue.use(VueTextAreaAutosize);
+Vue.use(DatetimePicker);
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional

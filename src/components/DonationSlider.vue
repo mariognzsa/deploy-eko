@@ -1,8 +1,8 @@
 <template>
   
-        <v-card>
+        <v-card height="100%" >
         <v-img
-            src="@/assets/banner1.jpg"
+            src="@/assets/mariposa.jpg"
             class="white--text align-end"
             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
             height="450"
@@ -21,11 +21,6 @@
             <v-btn color="orange" text>
                 Contáctanos
                 <v-icon>mdi-face-agent</v-icon>
-            </v-btn>
-
-            <v-btn color="green" text @click="$router.push('apoyanos')">
-                Realiza una donación
-                <v-icon>mdi-cash</v-icon>
             </v-btn>
         </v-card-actions>
     </v-card>

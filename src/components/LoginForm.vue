@@ -1,5 +1,5 @@
 <template>
-    <v-card class="elevation-12" min-height="550">
+    <v-card class="elevation-12" height="90%">
         <v-toolbar
         flat
         >
@@ -17,6 +17,7 @@
             type="text"
             v-model="email"
             required
+            v-on:keyup.enter="login"
             ></v-text-field>
 
             <v-text-field
@@ -27,6 +28,7 @@
             type="password"
             v-model="password"
             required
+            v-on:keyup.enter="login"
             ></v-text-field>
 
             <v-btn
@@ -44,7 +46,7 @@
             dense
             outlined
             type="error"
-            dismissible=""
+            dismissible
             >
             Usuario y/o contraseña <strong>Incorrectos</strong>
         </v-alert>
@@ -75,6 +77,7 @@
 </template>
 <script>
 // import auth from '@/plugins/auth';
+import { mapState, mapMutations } from 'vuex'
 import { firebase } from '@firebase/app'
 import '@firebase/auth'
 
@@ -88,32 +91,30 @@ export default {
         }
     },
     methods: {
-        // login() {
-        //     auth
-        //     .login(this.username, this.password)
-        //     .then((response) => {
-        //         auth.setToken(response.data.token);
-        //         this.$router.push('/admin/dashboard');
-        //     })
-        //     .catch((error) => {
-        //         console.error(error);
-        //         this.error = true;
-        //     });
-        // }
+        ...mapMutations(['logInLogOut']),
         async login() {
-            try{
-                await firebase.auth().signInWithEmailAndPassword(
-                    this.email,
-                    this.password
-                );
-                this.$router.replace({name: 'Dashboard'});
-            }catch(err) {
-                console.log(err);
+            await firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+            .then(() => {
+                this.logInLogOut(this.authenticated);
+                if (window.history.length > 2) {
+                    this.$router.go(-1);
+                } else {
+                    this.$router.replace({name: 'Home'});
+                }
+            })
+            .catch((error) => {
+                console.log(error);
                 this.error = true;
-            }
-            
+            });
         }
         
+    },
+    computed: {
+        ...mapState(['loggedIn']),
+        authenticated() {
+            var user = firebase.auth().currentUser;
+            return user ? true : false;
+        }
     }
     
 }
